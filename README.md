@@ -23,6 +23,16 @@ POST - '/auth/login' - Login (com retorno do Token JWT, conforme exigido)
 
 POST - '/chamados' - Criar chamado
 GET - '/chamados/:id' - Buscar por ID
-PUT - '/api/chamados/:id/status' - Atualizar status
-DELETE - '/api/chamados/:id' - Deletar chamado
-GET - '/api/chamados/:id/historico' - Ver histórico
+PUT - '/chamados/:id/status' - Atualizar status
+DELETE - '/chamados/:id' - Deletar chamado
+GET - '/chamados/:id/historico' - Ver histórico
+
+
+### Indicadores
+
+
+GET	- '/indicadores' - Todos os indicadores
+GET	- '/indicadores/categoria' - Por categoria
+GET	- '/indicadores/status' - Por status
+GET	- '/indicadores/cep' - Por CEP
+GET	- '/indicadores/tempo-medio' - Tempo médio de resolução
