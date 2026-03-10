@@ -9,6 +9,8 @@ app.use(express.json());
 // Registre middlewares basicos (ex.: parser de JSON) antes das rotas.
 
 // Importe o arquivo central de rotas e monte no app.
+const routes = require('./routes/index');
+app.use('/api', routes);
 
 // Configure o fallback 404 para qualquer rota nao mapeada.
 app.use((req, res) => {

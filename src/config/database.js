@@ -10,13 +10,19 @@ class Database {
     constructor(){
         if(!Database.instance){
             // se tiver nulo, cria
-            const dbPath = process.env.DB_PATH;
-            this.db = new Database(dbPath);
+            const dbPath = process.env.DB_PATH || path.join(__dirname, '../../database/app.db');
+            this.db = new database.Database(dbPath);
             Database.instance = this;
-        
         }
 
         return Database.instance;
+    }
+    
+    static getInstance(){
+        if (!Database.instance) {
+            Database.instance = new Database();
+        }
+        return Database.instance.db;
     }
     
     getConnection(){
