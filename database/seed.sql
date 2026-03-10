@@ -10,6 +10,6 @@ INSERT INTO categorias (nome) VALUES
     ('Outros');   
 
 
-INSERT INTO usuarios (nome_usuario, email, senha_hash) VALUES
+INSERT INTO usuarios (nome, email, senha_hash) VALUES
     ('Administrador', 'admin@linhacidada.com', 'senha_teste');
     
