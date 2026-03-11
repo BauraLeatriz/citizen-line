@@ -4,6 +4,7 @@
 // imports, require
 
 const chamadoRepository = require('../repositories/chamadosRepository');
+const AppError = require('../utils/AppError');
 
 class ChamadoService {
     constructor() {
@@ -16,8 +17,7 @@ class ChamadoService {
 
         // Validação básica dos dados
         if (!titulo || !descricao || !categoria_id || !usuario_id || !cep) {
-            throw new Error('Título, descrição, categoria_id, usuario_id e cep são obrigatórios para criar um chamado.');
-            // Poderia ser mais específico, validando cada campo individualmente e retornando mensagens de erro mais detalhadas.
+            throw new AppError('Título, descrição, categoria_id, usuario_id e cep são obrigatórios para criar um chamado.', 400);
 
             
         }
@@ -35,7 +35,7 @@ class ChamadoService {
     async buscarChamadoPorId(idChamado) {
         const chamado = await chamadoRepository.buscarPorId(idChamado);
         if (!chamado) {
-            throw new Error('Chamado não encontrado.');
+            throw new AppError('Chamado não encontrado.', 404);
         }
         return chamado;
     }
@@ -43,17 +43,17 @@ class ChamadoService {
     async atualizarStatusChamado(idChamado, novoStatus, usuarioId) {
         const chamado = await chamadoRepository.buscarPorId(idChamado);
         if (!chamado) {
-            throw new Error('Chamado não encontrado.');
+            throw new AppError('Chamado não encontrado.', 404);
         }
         //Verificar se o novo status é válido
         if (!this.FLUXO_STATUS.includes(novoStatus)) {
-            throw new Error('Status inválido.');
+            throw new AppError('Status inválido.', 400);
         }
 
         const proximoStatusIndex = this.FLUXO_STATUS.indexOf(chamado.status) + 1;
         const proximoStatus = this.FLUXO_STATUS[proximoStatusIndex];
         if (proximoStatus !== novoStatus) {
-            throw new Error(`Transição inválida. Próximo status permitido: ${proximoStatus}.`);
+            throw new AppError(`Transição inválida. Próximo status permitido: ${proximoStatus}.`, 400);
         }
 
         await chamadoRepository.atualizarStatus(idChamado, novoStatus);
@@ -70,7 +70,7 @@ class ChamadoService {
     async deletarId(idChamado) {
         const removido = await chamadoRepository.deletarPorId(idChamado);
         if (!removido) {
-            throw new Error('Chamado não encontrado.');
+            throw new AppError('Chamado não encontrado.', 404);
         }
         return { mensagem: 'Chamado deletado com sucesso.' };
     }
