@@ -1,13 +1,14 @@
 // Importe jsonwebtoken para gerar e validar tokens quando necessario.
 // Leia a chave de assinatura via process.env.JWT_SECRET.
+require('dotenv').config();
+
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const userRepo = require('../repositories/usuariosRepository')
 
-require('dotenv').config();
-
 // adicionar bcrypt
 const bcrypt = require('bcrypt');
+const AppError = require('../utils/AppError');
 
 // Se a chave nao existir, aplique fail-fast (erro ao iniciar a aplicacao).
 
@@ -33,12 +34,12 @@ class authService {
 
     async registrar({nome, email, senha}) {
         if (!nome || !email || !senha) {
-            throw new Error('Nome, E-mail e Senha são obrigatórios.');
+            throw new AppError('Nome, E-mail e Senha são obrigatórios.', 400);
         }
 
         const contaExistente = await userRepo.consultarEmail(email);
         if (contaExistente){
-            throw new Error('E-mail já cadastrado!');
+            throw new AppError('E-mail já cadastrado!', 409);
         }
 
         const senha_hash = await bcrypt.hash(senha, 10);
@@ -49,18 +50,18 @@ class authService {
 
     async login ({ email, senha}){
         if (!email || !senha){
-            throw new Error('E-mail e Senha são obrigatórios!');
+            throw new AppError('E-mail e Senha são obrigatórios!', 400);
         }
 
         const usuario = await userRepo.consultarEmail(email);
 
         if (!usuario){
-            throw new Error('Credenciais inválidas.');
+            throw new AppError('Credenciais inválidas.', 401);
         }
 
         const senhaValida = await bcrypt.compare(senha, usuario.senha_hash);
         if(!senhaValida){
-            throw new Error('Credenciais inválidas.');
+            throw new AppError('Credenciais inválidas.', 401);
         }
 
         const token = gerarToken(usuario);

@@ -6,9 +6,9 @@ const app = express();
 
 app.use(express.json());
 
-// Registre middlewares basicos (ex.: parser de JSON) antes das rotas.
+const { logMiddleware } = require('./middlewares/logMiddleware');
+app.use(logMiddleware);
 
-// Importe o arquivo central de rotas e monte no app.
 const routes = require('./routes/index');
 app.use('/', routes);
 
@@ -16,6 +16,9 @@ app.use('/', routes);
 app.use((req, res) => {
     return res.status(404).json({ erro: 'PAGE NOT FOUND / ROTA NÃO ENCONTRADA' });
 });
+
+const { errorMiddleware } = require('./middlewares/errorMiddleware');
+app.use(errorMiddleware);
 
 // Exporte o app para ser iniciado pelo server.js.
 module.exports = app;
