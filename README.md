@@ -28,7 +28,7 @@ DELETE - '/chamados/:id' - Deletar chamado
 GET - '/chamados/:id/historico' - Ver histórico
 
 
-### Indicadores
+#### Indicadores
 
 
 GET	- '/indicadores' - Todos os indicadores
@@ -36,3 +36,11 @@ GET	- '/indicadores/categoria' - Por categoria
 GET	- '/indicadores/status' - Por status
 GET	- '/indicadores/cep' - Por CEP
 GET	- '/indicadores/tempo-medio' - Tempo médio de resolução
+
+
+#### Relatórios
+
+GET - '/relatorios' - Todos os chamados
+GET - '/relatorios/' - Filtrar por status
+GET - '/relatorios/' - Filtrar por período
+GET - '/relatorios/' - Combinar filtros
