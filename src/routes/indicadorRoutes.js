@@ -3,10 +3,10 @@ const router = express.Router();
 
 const indicadorController = require('../controllers/indicadorController');
 
-router.get('/', indicadorController.obterTodos.bind(indicadorController));
-router.get('/categoria', indicadorController.porCategoria.bind(indicadorController));
-router.get('/status', indicadorController.porStatus.bind(indicadorController));
-router.get('/cep', indicadorController.porCep.bind(indicadorController));
-router.get('/tempo-medio', indicadorController.tempoMedio.bind(indicadorController));
+router.get('/', (req, res) => indicadorController.obterTodos(req, res));
+router.get('/categoria', (req, res) => indicadorController.porCategoria(req, res));
+router.get('/status', (req, res) => indicadorController.porStatus(req, res));
+router.get('/cep', (req, res) => indicadorController.porCep(req, res));
+router.get('/tempo-medio', (req, res) => indicadorController.tempoMedio(req, res));
 
 module.exports = router;
